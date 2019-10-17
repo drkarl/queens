@@ -1,0 +1,5 @@
+#N Queens with line check
+
+##Description of the Problem
+Place N queens on an NxN chess board so that none of them attack each other (the classic n-queens problem). Additionally, please make sure that no three queens are in a straight line at ANY angle, so queens on A1, C2 and E3, despite not attacking each other, form a straight line at some angle.
+
