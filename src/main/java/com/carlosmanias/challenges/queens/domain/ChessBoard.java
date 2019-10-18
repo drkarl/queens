@@ -12,6 +12,7 @@ public class ChessBoard {
     private int gridSize;
     private List<Queen> placedQueens;
     private Map<Double, Pair<Queen, Queen>> memoizedSlopes;
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public ChessBoard(int gridSize){
         this.gridSize = gridSize;
@@ -31,6 +32,23 @@ public class ChessBoard {
             return false;
         }
         return placeQueen(0);
+    }
+
+    public String drawBoard(){
+        int[][] board = new int[gridSize][gridSize];
+        placedQueens.forEach(queen -> board[queen.getCol()][queen.getRow()] = 1);
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<gridSize; i++) {
+            for (int j=0; j<gridSize; j++) {
+                if (board[i][j] == 1) {
+                    sb.append("[Q] ");
+                } else {
+                    sb.append("[ ] ");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     private boolean placeQueen(final int col) {

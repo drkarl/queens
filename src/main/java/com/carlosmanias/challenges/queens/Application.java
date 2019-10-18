@@ -8,5 +8,6 @@ public class Application {
         ChessBoard chessBoard = new ChessBoard(4);
         String message = chessBoard.solve() ? "Board solved!!" : "No solutions found";
         System.out.println(message);
+        System.out.println(chessBoard.drawBoard());
     }
 }
