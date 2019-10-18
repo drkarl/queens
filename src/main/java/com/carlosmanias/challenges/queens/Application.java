@@ -24,13 +24,29 @@ SOFTWARE.
 package com.carlosmanias.challenges.queens;
 
 import com.carlosmanias.challenges.queens.domain.ChessBoard;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Application {
 
+    private static final int DEFAULT_GRID_SIZE = 8;
+
     public static void main(final String[] args) {
-        final ChessBoard chessBoard = new ChessBoard(8);
+        final int gridSize = resolveGridSize(args);
+        final ChessBoard chessBoard = new ChessBoard(gridSize);
         final String message = chessBoard.solve() ? "Board solved!!" : "No solutions found";
-        System.out.println(message);
-        System.out.println(chessBoard.drawBoard());
+        log.info(String.format("Solving n queens for size: %s", gridSize));
+        log.info(message);
+        log.info("Board: \n" + chessBoard.drawBoard());
+    }
+
+    private static int resolveGridSize(final String[] args) {
+        int gridSize;
+        try {
+            return args.length > 0 ? Integer.parseInt(args[0]) : DEFAULT_GRID_SIZE;
+        } catch (NumberFormatException nfe){
+            gridSize = DEFAULT_GRID_SIZE;
+        }
+        return gridSize;
     }
 }

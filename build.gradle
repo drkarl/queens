@@ -1,19 +1,20 @@
 plugins {
     id 'java'
-    id "com.github.spotbugs" version "2.0.0"
+    id "com.github.spotbugs" version "$spotbugsVersion"
 }
 
 group 'com.carlosmanias'
-version '1.0-SNAPSHOT'
+version "$projectVersion"
 
-sourceCompatibility = 1.8
+sourceCompatibility = "$sourceCompatibility"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: "$logbackVersion"
+    implementation group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
+    testImplementation group: 'junit', name: 'junit', version: "$junitVersion"
 }
