@@ -11,67 +11,137 @@ import static org.junit.Assert.assertTrue;
 public class QueenTest {
 
     @Test
-    public void queenCanAttackIfOnSameRow(){
-        final Coordinates one = Coordinates.builder()
-                .x(1)
-                .y(2)
+    public void isColumnShouldFindTwoCoordinatesOnTheSameColumn() {
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
                 .build();
-        final Coordinates another = Coordinates.builder()
-                .x(5)
-                .y(2)
+        final Queen another = Queen.builder()
+                .col(1)
+                .row(5)
                 .build();
 
-        final Queen first = Queen.builder().coordinates(one).build();
-        final Queen second = Queen.builder().coordinates(another).build();
-        assertTrue(first.canAttack(second));
+        assertTrue(one.sameColumn(another));
+    }
+
+    @Test
+    public void isRowShouldFindTwoCoordinatesOnTheSameRow() {
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
+                .build();
+        final Queen another = Queen.builder()
+                .col(5)
+                .row(2)
+                .build();
+
+        assertTrue(one.sameRow(another));
+    }
+
+    @Test
+    public void isDiagonalShouldFindTwoCoordinatesOnTheSameDiagonal() {
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
+                .build();
+        final Queen another = Queen.builder()
+                .col(4)
+                .row(5)
+                .build();
+
+        assertTrue(one.isDiagonal(another));
+    }
+
+    @Test
+    public void formsLineShouldFindALineBetweenThreePoints() {
+        final Queen first = Queen.builder()
+                .col(1)
+                .row(1)
+                .build();
+        final Queen second = Queen.builder()
+                .col(3)
+                .row(5)
+                .build();
+        final Queen third = Queen.builder()
+                .col(5)
+                .row(9)
+                .build();
+
+        assertTrue(first.formsLine(second, third));
+    }
+
+    @Test
+    public void formsLineShouldFindThereIsNoLineBetweenThreePoints() {
+        final Queen first = Queen.builder()
+                .col(0)
+                .row(1)
+                .build();
+        final Queen second = Queen.builder()
+                .col(3)
+                .row(5)
+                .build();
+        final Queen third = Queen.builder()
+                .col(5)
+                .row(9)
+                .build();
+
+        assertFalse(first.formsLine(second, third));
+    }
+
+    @Test
+    public void queenCanAttackIfOnSameRow(){
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
+                .build();
+        final Queen another = Queen.builder()
+                .col(5)
+                .row(2)
+                .build();
+
+        assertTrue(one.canAttack(another));
     }
 
     @Test
     public void queenCanAttackIfOnSameColumn(){
-        final Coordinates one = Coordinates.builder()
-                .x(1)
-                .y(2)
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
                 .build();
-        final Coordinates another = Coordinates.builder()
-                .x(1)
-                .y(5)
+        final Queen another = Queen.builder()
+                .col(1)
+                .row(5)
                 .build();
 
-        final Queen first = Queen.builder().coordinates(one).build();
-        final Queen second = Queen.builder().coordinates(another).build();
-        assertTrue(first.canAttack(second));
+        assertTrue(one.canAttack(another));
     }
 
     @Test
     public void queenCanAttackIfOnSameDiagonal(){
-        final Coordinates one = Coordinates.builder()
-                .x(1)
-                .y(2)
+        final Queen one = Queen.builder()
+                .col(1)
+                .row(2)
                 .build();
-        final Coordinates another = Coordinates.builder()
-                .x(4)
-                .y(5)
+        final Queen another = Queen.builder()
+                .col(4)
+                .row(5)
                 .build();
 
-        final Queen first = Queen.builder().coordinates(one).build();
-        final Queen second = Queen.builder().coordinates(another).build();
-        assertTrue(first.canAttack(second));
+        assertTrue(one.canAttack(another));
     }
 
     @Test
     public void queenIsSafe(){
-        final Coordinates one = Coordinates.builder()
-                .x(0)
-                .y(2)
+        final Queen one = Queen.builder()
+                .col(0)
+                .row(2)
                 .build();
-        final Coordinates another = Coordinates.builder()
-                .x(4)
-                .y(5)
+        final Queen another = Queen.builder()
+                .col(4)
+                .row(5)
                 .build();
 
-        final Queen first = Queen.builder().coordinates(one).build();
-        final Queen second = Queen.builder().coordinates(another).build();
-        assertFalse(first.canAttack(second));
+        assertFalse(one.canAttack(another));
     }
 
 }
