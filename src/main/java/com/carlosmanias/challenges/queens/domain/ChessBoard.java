@@ -7,14 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the Chess Board.
+ * It contains the placed queens and can solve the n-queens problem recursively.
+ */
 @Data
 public class ChessBoard {
     private int gridSize;
     private List<Queen> placedQueens;
     private Map<Double, Pair<Queen, Queen>> memoizedSlopes;
-    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final int MIN_BOARD_SIZE = 4;
 
-    public ChessBoard(int gridSize){
+    public ChessBoard(final int gridSize){
         this.gridSize = gridSize;
         this.placedQueens = new ArrayList<>();
         this.memoizedSlopes = new HashMap<>();
@@ -28,16 +32,18 @@ public class ChessBoard {
      * @return
      */
     public boolean solve(){
-        if (gridSize < 4) {
-            return false;
-        }
-        return placeQueen(0);
+        return gridSize >= MIN_BOARD_SIZE && placeQueen(0);
     }
 
+    /**
+     * Generates a String representation of the Chess board
+     * with the n queens placed in it.
+     * @return
+     */
     public String drawBoard(){
         int[][] board = new int[gridSize][gridSize];
         placedQueens.forEach(queen -> board[queen.getCol()][queen.getRow()] = 1);
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         for (int i=0; i<gridSize; i++) {
             for (int j=0; j<gridSize; j++) {
                 if (board[i][j] == 1) {
@@ -46,7 +52,7 @@ public class ChessBoard {
                     sb.append("[ ] ");
                 }
             }
-            sb.append("\n");
+            sb.append('\n');
         }
         return sb.toString();
     }
@@ -56,7 +62,7 @@ public class ChessBoard {
             return true;
         }
         for (int row = 0; row < gridSize; row++) {
-            Queen newQueen = new Queen(col, row);
+            final Queen newQueen = new Queen(col, row);
             if (isSafe(newQueen) && !formsLine(newQueen)) {
                 placedQueens.add(newQueen);
                 if (placeQueen(col + 1)) {
@@ -69,24 +75,21 @@ public class ChessBoard {
         return false;
     }
 
-    private boolean findRemovedQueenMemoization(Map.Entry<Double, Pair<Queen, Queen>> entry, final Queen removedQueen) {
-        Pair<Queen, Queen> pairOfQueens = entry.getValue();
+    private boolean findRemovedQueenMemoization(final Map.Entry<Double, Pair<Queen, Queen>> entry, final Queen removedQueen) {
+        final Pair<Queen, Queen> pairOfQueens = entry.getValue();
         return removedQueen.equals(pairOfQueens.getLeft()) || removedQueen.equals(pairOfQueens.getRight());
     }
 
     private boolean isSafe(final Queen newQueen) {
-        if (placedQueens.isEmpty()) {
-            return true;
-        }
-        return placedQueens.stream().noneMatch(placedQueen -> placedQueen.canAttack(newQueen));
+        return placedQueens.isEmpty() || placedQueens.stream().noneMatch(placedQueen -> placedQueen.canAttack(newQueen));
     }
 
     private boolean formsLine(final Queen newQueen) {
-        for (Queen queen : placedQueens) {
-            Double slope = queen.slope(newQueen);
+        for (final Queen queen : placedQueens) {
+            final Double slope = queen.slope(newQueen);
             if (memoizedSlopes.containsKey(slope)) {
-                Pair<Queen, Queen> pairOfQueens = memoizedSlopes.get(slope);
-                boolean formsLine = newQueen.formsLine(pairOfQueens.getLeft(), pairOfQueens.getRight());
+                final Pair<Queen, Queen> pairOfQueens = memoizedSlopes.get(slope);
+                final boolean formsLine = newQueen.formsLine(pairOfQueens.getLeft(), pairOfQueens.getRight());
                 if (!formsLine) {
                     memoizedSlopes.put(slope, Pair.of(queen, newQueen));
                 }

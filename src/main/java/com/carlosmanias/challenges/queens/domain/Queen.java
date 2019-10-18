@@ -3,6 +3,11 @@ package com.carlosmanias.challenges.queens.domain;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * This class represents a Queen.
+ * It only contains the position coordinates as data
+ * but it can perform checks in relation to other queens.
+ */
 @Builder
 @Data
 public class Queen {
