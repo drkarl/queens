@@ -24,7 +24,7 @@ SOFTWARE.
 package com.carlosmanias.challenges.queens.domain;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * This class represents a Queen.
@@ -32,10 +32,10 @@ import lombok.Data;
  * but it can perform checks in relation to other queens.
  */
 @Builder
-@Data
+@Value
 public class Queen {
-    private int col;
-    private int row;
+    int col;
+    int row;
 
     /**
      * Checks if these coordinates are diagonal to other coordinates
