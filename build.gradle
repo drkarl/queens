@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
     id "com.github.spotbugs" version "$spotbugsVersion"
 }
 
@@ -10,6 +11,10 @@ sourceCompatibility = "$sourceCompatibility"
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClassName = 'com.carlosmanias.challenges.queens.Application'
 }
 
 dependencies {
